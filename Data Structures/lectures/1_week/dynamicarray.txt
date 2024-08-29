@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	int i;
+	int* array = NULL;
+	array = new int[5];
+	for(i=0;i<5;i++){
+		array[i]=i+1;
+	}
+	array = new int[10];
+	for(i=5;i<10;i++){
+		array[i]=i+1;
+	}
+	for(i=0;i<10;i++){
+		cout<<array[i];
+	}
+return 0;
+}
