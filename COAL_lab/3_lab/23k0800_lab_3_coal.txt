@@ -1,0 +1,159 @@
+Q1:
+
+INCLUDE Irvine32.inc
+.data
+    val1 word ? ; uninitialized
+    val2 SBYTE -11
+
+.code
+    main PROC
+        mov eax, 0
+        mov ax, val1
+        mov al, val2
+        
+        call DumpRegs
+        exit
+    main ENDP
+    END main
+
+Q2:
+
+INCLUDE Irvine32.inc
+
+.data
+
+val3 SDWORD -2147483648
+
+.code
+    main PROC
+        mov eax , val3
+        call DumpRegs
+        exit
+    main ENDP
+    END main
+
+Q3:
+
+INCLUDE Irvine32.inc
+
+
+.data
+
+array WORD 1,2,3
+
+.code
+    main PROC
+        mov ax , [array]
+        call DumpRegs
+        exit
+    main ENDP
+    END main
+
+Q4:
+
+
+INCLUDE Irvine32.inc
+
+.data
+    color BYTE "purple",0
+    varA WORD 12
+    varB WORD 2
+    varC WORD 13
+    varD WORD 8
+    varE WORD 14
+.code
+    main PROC
+
+        call DumpRegs
+        exit
+    main ENDP
+    END main
+
+Q5:
+
+INCLUDE Irvine32.inc
+.data
+Vara BYTE 11h
+Varb BYTE 10h
+Varc BYTE 30h
+Vard BYTE 40h
+    
+.code
+    main PROC
+        xor ebx, ebx           
+        mov al, Vara           
+        add al, Varb          
+        mov bl, Vara           
+        sub bl, Varb         
+        sub al, bl           
+        add al, Varc           
+        add al, Vard           
+        movzx ebx, al         
+
+        call DumpRegs          
+        exit
+    main ENDP
+    END main
+
+
+Q6:
+
+INCLUDE Irvine32.inc
+;23k-0539
+
+.data
+    VarA BYTE 00010001b  
+    VarB BYTE 00010000b  
+    VarC BYTE 00110000b  
+    VarD BYTE 01000000b 
+    
+.code
+    main PROC
+        xor ebx, ebx          
+        mov al, VarA          
+        add al, VarB          
+        mov bl, VarA        
+        sub bl, VarB          
+        sub al, bl           
+        add al, VarC          
+        add al, VarD         
+        movzx ebx, al         
+
+        call DumpRegs        
+        exit
+    main ENDP
+    END main
+
+Q7:
+
+INCLUDE Irvine32.inc
+
+.data
+  wArray WORD 1,2,3  
+
+Q8:
+
+INCLUDE Irvine32.inc
+.data
+  darray DWORD 50 DUP(?)
+
+
+Q9:
+
+INCLUDE Irvine32.inc
+
+
+.data
+  string BYTE 500 DUP("TEST")
+
+Q10:
+
+INCLUDE Irvine32.inc
+
+.data
+  bArray BYTE 20 DUP(0) 
+
+
+
+
+

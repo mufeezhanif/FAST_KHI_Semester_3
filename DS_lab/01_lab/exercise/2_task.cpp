@@ -39,7 +39,7 @@ int main()
     ptr1->setScore(20);
     ptr1->displayDetails();
 
-    Exam *ptr2 = ptr1;
+    Exam *ptr2(ptr1);
     ptr2->displayDetails();
 
     ptr2->setName("Hamza");
@@ -49,5 +49,4 @@ int main()
 
     return 0;
 }
-
 //This program does shallow copy, to resolve this issue we have to do deep copy in objects
