@@ -64,8 +64,15 @@ int main()
     Stack<string> stack1(5);
 
     stack1.push("Water the plants");
-    stack1.push("something");
-    stack1.push("kick aqib kumar");
+    stack1.push("Do the lab tasks :(");
+    stack1.pop();
+    
+    if(stack1.isEmpty()){
+        cout<<"Nothing in the stack"<<endl;
+    }
+    else{
+        cout<<"something in the stack"<<endl;
+    }
 
     cout<<stack1.peek();
 }

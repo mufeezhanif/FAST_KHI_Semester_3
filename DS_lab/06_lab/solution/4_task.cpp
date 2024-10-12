@@ -49,7 +49,7 @@ public:
         else
         {
             cout << "Stack is Empty" << endl;
-            return -1;
+            return T();
         }
     }
 
@@ -75,34 +75,52 @@ int returnPrecedence(char c)
     }
     return -1;
 }
-int main()
+string infixToPostfix(string exp)
 {
-    string str = "a+b*(c^d-e)^(f+g*h)-i";
-    Stack<char> st1(str.length());
-    string postfix = "";
-
-    for (int i = 0; i < str.length(); ++i)
+    int len = exp.length();
+    string ans = "";
+    Stack<char> stack(len);
+    for (int i = 0; i < len; ++i)
     {
-        char c = str[i];
-        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+        if ((exp[i] >= 'a' && exp[i] <= 'z'))
         {
-            postfix += c;
+            ans += exp[i];
         }
-        else if (c == '(')
+        else if (exp[i] == '(')
         {
-            st1.push(c);
+            stack.push(exp[i]);
         }
-        else if (c == ')')
+        else if (exp[i] == ')')
         {
-            while (!st1.isEmpty() ){
-                postfix += st1.peek();
-                st1.pop();
+            while (!stack.isEmpty() && stack.peek() != '(')
+            {
+                ans += stack.peek();
+                stack.pop();
             }
+            if (!stack.isEmpty())
+                stack.pop();
         }
-        else if (returnPrecedence(st1.peek()) > returnPrecedence(str[i]))
+        else
         {
+            while ((returnPrecedence(stack.peek()) >= returnPrecedence(exp[i])) && !stack.isEmpty())
+            {
+                ans += stack.peek();
+                stack.pop();
+            }
+            stack.push(exp[i]);
         }
     }
-
-    return 0;
+    while (!stack.isEmpty())
+    {
+        ans += stack.peek();
+        stack.pop();
+    }
+    return ans;
 }
+
+int main()
+{
+    string equation = "a+b*(c^d-e)^(f+g*h)-i";
+    cout << "Post Fix: " << infixToPostfix(equation);
+    return 0;
+};

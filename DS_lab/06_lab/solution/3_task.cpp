@@ -20,8 +20,9 @@ public:
 template <typename T>
 class LLStack
 {
-public:
     Node<T> *top;
+
+public:
     LLStack(T url)
     {
         top = new Node<T>(url);
@@ -53,13 +54,18 @@ public:
             top = top->next;
         return top->url;
     }
-
+    T current()
+    {
+        if (!top)
+            return T();
+        return top->url;
+    }
     ~LLStack()
     {
-        while (head && head->prev)
+        while (top && top->prev)
         {
-            Node<T> *prev = head->prev;
-            head = head->prev;
+            Node<T> *prev = top->prev;
+            top = top->prev;
             delete prev;
         }
     }
@@ -67,6 +73,13 @@ public:
 
 int main()
 {
+    LLStack<string> web1("Google.cam");
+    web1.visit("Facebook.com");
+    web1.visit("Twitter.com");
+    web1.visit("Linkedin.com");
+    web1.visit("Instagram.com");
 
+    web1.back(2);
+    cout << web1.current();
     return 0;
 }

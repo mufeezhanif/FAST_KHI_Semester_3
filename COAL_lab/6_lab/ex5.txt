@@ -1,0 +1,33 @@
+INCLUDE Irvine32.inc
+
+.data
+COUNT = 4 
+arrayD SDWORD 12345678h, 1A4B2000h, 3434h, 7AB9h 
+prompt BYTE "Enter a 32-bit signed integer: ", 0
+.code
+main PROC 
+; Display an array using DumpMem.
+mov esi, OFFSET arrayD ; starting OFFSET
+mov ebx, TYPE arrayD ; doubleword = 4 bytes m
+mov ecx, LENGTHOF arrayD ; number of units in arrayD 
+call DumpMem ; display memory 
+call DumpRegs ; Ask the user to input a sequence of signed integers
+call Crlf ; new line 
+mov ecx, COUNT
+L1:
+mov edx, OFFSET prompt
+call WriteString
+call ReadInt ; input integer into EAX 
+call Crlf ; new line
+; Display the integer in decimal, hexadecimal, and binary
+call WriteInt ; display in signed decimal 
+call Crlf
+call WriteHex ; display in hexadecimal
+call Crlf
+call WriteBin ; display in binary
+call Crlf 
+call Crlf
+Loop L1
+exit
+main ENDP
+END main

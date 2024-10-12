@@ -1,0 +1,21 @@
+INCLUDE Irvine32.inc
+
+.data
+str1 byte "Survey Completed",0
+str2 byte "Thanks for completing"
+	 byte "Would you like to receive the results?",0
+caption byte "Dialog title",0
+caption2 byte "This is a pop=up message box "
+		 byte "click ok to continue",0
+
+.code
+main PROC
+mov ebx,0
+mov ebx, OFFSET str1
+mov ebx, OFFSET str2
+call MsgBoxAsk
+call Dumpregs
+call MsgBox
+exit
+main ENDP
+END main

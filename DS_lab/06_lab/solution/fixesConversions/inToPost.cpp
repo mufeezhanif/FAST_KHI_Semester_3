@@ -118,7 +118,8 @@ string infixToPostfix(string exp)
 
 int main()
 {
-    string str = "a+b*(c^d-e)";
+    // string str = "a+b*(c^d-e)^(f+g*h)-i";
+    string str = "x=12+13-5(0.5+0.5)+1";
     cout << infixToPostfix(str);
 
     return 0;

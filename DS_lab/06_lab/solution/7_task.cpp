@@ -56,7 +56,7 @@ public:
             return arr[start];
         return T();
     }
-    int getSize() return size;
+    int getSize(){ return size;}
 };
 
 int main()
