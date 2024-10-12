@@ -1,3 +1,11 @@
+/*
+input values:
+
+nothing
+something
+anything
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
