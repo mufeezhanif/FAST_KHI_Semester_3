@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "f:/FAST_KHI_Semester_3/DS_lab/05_lab/solution",
-      "program": "f:/FAST_KHI_Semester_3/DS_lab/05_lab/solution/build/Debug/outDebug",
+      "externalConsole": false,
+      "cwd": "/media/mufeez/work1/FAST_KHI_Semester_3/DS_lab/mid practice",
+      "program": "/media/mufeez/work1/FAST_KHI_Semester_3/DS_lab/mid practice/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

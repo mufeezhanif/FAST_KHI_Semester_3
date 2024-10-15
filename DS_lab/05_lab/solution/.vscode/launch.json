@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "g:/Other computers/My Laptop/FAST_KHI_Semester_3/DS_lab/05_lab/solution",
-      "program": "g:/Other computers/My Laptop/FAST_KHI_Semester_3/DS_lab/05_lab/solution/build/Debug/outDebug",
+      "cwd": "f:/FAST_KHI_Semester_3/DS_lab/05_lab/solution",
+      "program": "f:/FAST_KHI_Semester_3/DS_lab/05_lab/solution/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
