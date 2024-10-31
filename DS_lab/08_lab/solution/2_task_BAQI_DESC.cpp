@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
-
+/*
+DESCENDING ORDER ME SORT BAQI H
+*/
 using namespace std;
 int findMax(int *arr, int cols)
 {
@@ -40,6 +42,33 @@ void countSort(int *arr, int n, int exp)
         arr[i] = result[i];
     }
 }
+void countSortDesc(int *arr, int n, int exp)
+{
+    int result[n];
+    int i = 0;
+    int count[10] = {0};
+
+    for (int i = 0; i < n; ++i)
+    {
+        count[(arr[i] / exp) % 10]++;
+    }
+
+    for (int i = 1; i < 10; ++i)
+    {
+        count[i] += count[i - 1];
+    }
+
+    for (int i = n - 1; i >= 0; --i)
+    {
+        result[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+
+    for (int i = 0; i < n; ++i)
+    {
+        arr[i] = result[i];
+    }
+}
 
 void radixSort(int **arr, int rows, int cols)
 {
@@ -49,6 +78,17 @@ void radixSort(int **arr, int rows, int cols)
         for (int exp = 1; max / exp > 0; exp *= 10)
         {
             countSort(arr[i], cols, exp );
+        }
+    }
+}
+void radixSortDesc(int **arr, int rows, int cols)
+{
+    for (int i = 0; i < rows; ++i)
+    {
+        int max = findMax(arr[i], cols);
+        for (int exp = 1; max / exp > 0; exp *= 10)
+        {
+            countSortDesc(arr[i], cols, exp );
         }
     }
 }
@@ -72,7 +112,21 @@ int main()
     radixSort(arr, rows, cols);
     cout << endl
          << endl
-         << "Displaying sorted: " << endl;
+         << "Displaying sorted in ascending order: " << endl;
+    for (int i = 0; i < rows; ++i)
+    {
+        for (int j = 0; j < cols; ++j)
+        {
+
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    radixSortDesc(arr, rows, cols);
+    cout << endl
+         << endl
+         << "Displaying sorted in descending order: " << endl;
     for (int i = 0; i < rows; ++i)
     {
         for (int j = 0; j < cols; ++j)

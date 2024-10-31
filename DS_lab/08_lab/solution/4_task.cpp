@@ -37,7 +37,6 @@ int partition(Product arr[], int left, int right)
         {
             swap(arr[i], arr[j]);
         }
-        cout << "In loop" << endl;
     }
     swap(arr[left], arr[j]);
     return j;
@@ -46,7 +45,6 @@ void quickSort(Product arr[], int left, int right)
 {
     if (left < right)
     {
-        cout << "in quick sort" << left << " " << right << endl;
         int partIndex = partition(arr, left, right);
         quickSort(arr, left, partIndex - 1);
         quickSort(arr, partIndex + 1, right);

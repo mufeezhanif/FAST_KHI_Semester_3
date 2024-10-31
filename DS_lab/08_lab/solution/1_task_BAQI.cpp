@@ -16,7 +16,7 @@ public:
     }
 };
 
-int findMax(Node *arr, int n)
+int findMax(Node *arr, int n) 
 {
     int max = arr[0].score;
     for (int i = 0; i < n; ++i)
