@@ -173,6 +173,7 @@ private:
             head->val = changed->val;
             head->right = deleteNode(head->right, changed->val);
         }
+        return nullptr;
     }
     Node *getSuccessor(Node *temp)
     {
