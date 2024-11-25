@@ -34,4 +34,5 @@ public:
     string GetCreationTime();
     void closeTicket(string endingTime);
     void displayTicketDetail();
+    Ticket * operator=( Ticket&other);
 };

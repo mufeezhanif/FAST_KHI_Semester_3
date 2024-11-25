@@ -78,3 +78,17 @@ void Ticket::displayTicketDetail()
     cout << "Priority: " << this->Priority << endl;
     cout << "Status: " << (this->status ? "Open" : "Closed") << endl;
 }
+
+Ticket *Ticket::operator=(Ticket &other)
+{
+
+    this->ticketID = other.ticketID;
+    this->customerName = other.customerName;
+    this->serviceRequestDescription = other.serviceRequestDescription;
+    this->creationTime = other.creationTime;
+    this->Priority = other.Priority;
+    this->status = true;
+    this->closeTime = other.closeTime;
+
+    return this;
+}

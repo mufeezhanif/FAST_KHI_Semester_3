@@ -1,4 +1,4 @@
-#include "Ticket.cpp"
+#include "Ticket.h"
 
 class Node
 {

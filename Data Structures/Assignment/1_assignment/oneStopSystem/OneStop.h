@@ -1,7 +1,5 @@
-#include "Agent.cpp"
-#include "Ticket.cpp"
-#include "TicketList.cpp"
-#include "TicketStack.cpp"
+#include "Agent.h"
+#include "TicketStack.h"
 
 class OneStop {
 private:

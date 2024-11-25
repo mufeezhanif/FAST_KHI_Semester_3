@@ -23,7 +23,7 @@ class Heap{
             heap[i] = val;
             while(i>0){
                 int parent = ((i-1)/2);
-                if(heap[parent] > heap[i]){
+                if(heap[parent] < heap[i]){
                     swap(heap[parent], heap[i]);
                     i = parent;
                 }
@@ -33,6 +33,12 @@ class Heap{
             }
         }
 
+        void deleteVal(){
+            if(currSize==0){
+                cout<<"Heap doesn't have any value";
+            }
+            
+        }
         void printHeap(){
             for(int i=0;i<currSize;++i){
                 cout<<heap[i]<<" ";

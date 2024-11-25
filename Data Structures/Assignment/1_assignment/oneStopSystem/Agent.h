@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include "Ticket.cpp"
-#include "TicketList.cpp"
+
+#include "TicketList.h"
 using namespace std;
 
 // Each support agent will have the following attributes:

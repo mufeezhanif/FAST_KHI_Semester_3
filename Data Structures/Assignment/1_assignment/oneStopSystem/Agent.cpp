@@ -49,7 +49,7 @@ void Agent::assignTicketToAgent(int id, string name, int priority, string desc, 
         return;
     }
     Ticket *temp = new Ticket(id, name, priority, desc, crTime);
-    (tickets + ticketsAssigned) = temp;
+    tickets[ticketsAssigned] =  *temp;
     ticketsAssigned++;
     if (ticketsAssigned == 4)
         Agent::SetAvailability(false);
