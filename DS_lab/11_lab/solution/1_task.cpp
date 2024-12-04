@@ -31,6 +31,7 @@ class Heap{
                     break;
                 }
             }
+            printHeap();
         }
 
         void printHeap(){
@@ -48,6 +49,5 @@ int main(){
     h1.insert(1);
     h1.insert(2);
     h1.insert(2);
-    h1.printHeap();
     return 0;
 }
