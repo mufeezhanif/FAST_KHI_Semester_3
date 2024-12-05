@@ -1,0 +1,250 @@
+q1:
+
+include irvine32.inc
+
+
+.data
+arr1 word  4,5,6,2,4,8,9,6,7,5
+arr2 word 10 dup(?)
+
+.code
+main proc
+
+mov ecx, 10
+mov esi, offset arr1
+l1:
+movzx eax,word ptr [esi]
+push eax
+add esi, 2
+loop l1
+
+mov esi, offset arr2
+mov ecx, 10
+l2:
+pop eax
+mov [esi], ax
+add esi, 2
+loop l2
+mov ecx, 10
+mov ebx, 2
+mov esi, offset arr2
+call dumpmem
+exit 
+main endp
+end main
+
+q2:
+
+include irvine32.inc
+
+
+.data
+
+.code
+main proc
+
+mov eax, 34
+push eax
+mov eax, 43
+push eax
+mov eax, 55
+push eax
+mov eax, 0
+mov ebx, 0
+mov ecx, 3
+
+
+l1:
+pop ebx
+add eax, ebx
+loop l1	
+call writeint
+exit 
+main endp
+end main
+
+q3:
+
+
+include irvine32.inc
+.data
+
+arr1 dword 23,43,54,34,23
+arr2 dword 98,43,54,65,34
+sumstr byte "The sum is: ",0
+.code
+
+sum1 proc
+
+mov esi, offset arr1
+mov ecx, lengthof arr1
+mov eax, 0
+l1:
+	add eax, [esi]
+	add esi,4
+	loop l1
+
+	call sum2
+	ret
+sum1 endp
+
+sum2 proc
+
+mov esi, offset arr2
+mov ecx, lengthof arr2
+mov ebx, 0
+l1:
+	add ebx, [esi]
+	add esi,4
+	loop l1
+
+	call addBothSum
+	ret
+
+sum2 endp
+
+addBothSum proc
+
+add eax, ebx
+ret
+addBothSum endp
+main PROC
+
+call sum1
+
+mov edx, offset sumstr
+call writestring
+call writeInt
+exit
+main ENDP
+END main
+
+
+q4:
+
+
+include irvine32.inc
+.data
+
+cols dword 8
+gap word 8
+star word 1
+gapstr byte " ",0
+starstr byte "*",0
+.code
+
+printPattern proc
+	mov ecx, cols
+	outer:
+		mov cols, ecx
+		mov cx, gap
+		mov edx, offset gapstr
+		prntGap:
+			call writestring
+		loop prntGap
+		dec gap
+		mov cx, star		
+		mov edx, offset starstr
+		prntStar:
+			call writestring
+		loop prntStar
+		inc star
+		call crlf
+		mov ecx, cols
+		loop outer
+	ret
+printPattern  endp
+
+main PROC
+
+call printPattern
+
+exit
+main ENDP
+END main
+
+
+q5:
+
+
+include irvine32.inc
+.data
+
+cols dword 5
+gap word ?
+star word ?
+gapstr byte " ",0
+character dword 65
+
+.code
+
+printPattern proc
+mov eax, character
+	mov ecx, cols
+	outer:
+		mov cols, ecx
+		mov cx, gap
+		cmp cx, 0
+		jz noGap
+		mov edx, offset gapstr
+		prntGap:
+			call writestring
+		loop prntGap
+		noGap:
+		dec gap
+		mov cx, star		
+		prntStar:
+			call writechar
+			inc eax
+		loop prntStar
+		inc star
+		call crlf
+		mov ecx, cols
+		loop outer
+	ret
+printPattern  endp
+
+main PROC
+mov eax, cols
+dec eax
+mov gap, ax
+mov star, 1
+call printPattern
+
+exit
+main ENDP
+END main
+
+
+q6:
+
+
+include irvine32.inc
+.data
+
+inputStr byte "Enter a number n: ",0
+
+
+.code
+
+printSum proc
+	mov edx, offset inputStr
+	call writeString
+	mov eax, 0
+	call readint
+	mov edx, eax
+	inc edx
+	mul edx
+	mov ecx, 0
+	mov cl,2
+	div ecx
+	call writeint
+	ret
+printSum  endp
+
+main PROC
+call printSum
+
+exit
+main ENDP
+END main

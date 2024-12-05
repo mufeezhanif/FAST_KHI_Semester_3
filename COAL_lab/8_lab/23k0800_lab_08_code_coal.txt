@@ -1,0 +1,371 @@
+q1:
+
+
+include irvine32.inc
+.data
+
+inputStr byte "Enter a integer : ",0
+falsecondition byte "Integers are not equal",0
+truecondition byte "Integers are equal",0
+
+.code
+
+main PROC
+
+mov eax, 0
+mov edx, offset inputStr
+call writestring
+
+
+call readint
+mov ebx, eax
+mov ecx, 3
+l1:
+	call writeString
+	call readint
+	cmp eax, ebx
+	jne notEqual
+	loop l1
+
+	mov edx, offset truecondition
+	call writestring
+	jmp exitp
+notEqual:
+	mov edx, offset falsecondition
+	call writestring 
+exitp:
+exit
+main ENDP
+END main
+
+
+q2:
+
+
+include irvine32.inc
+.data
+
+arr sword 0, 0, 0, 150, 120, 35, -12, 66, 4, 0
+notFound byte "The array contains only zeros",0
+.code
+
+main PROC
+
+mov esi, offset arr
+
+mov ecx, lengthof arr
+mov eax, 0
+l1:
+	mov ax, [esi]
+	add esi, 2
+	cmp ax, 0
+	jne found
+	loop l1
+
+	mov edx, offset notFound
+	call writestring
+	jmp exitp
+found:
+	call writeint
+exitp:
+
+
+
+
+exit
+main ENDP
+END main
+
+
+q3:
+
+
+include irvine32.inc
+.data
+
+arr sword 0, 0, 0, 150, 120, 35, -12, 66, 4, 0
+notFound byte "The array contains only zeros",0
+var word 149
+x byte ?
+.code
+
+main PROC
+
+mov esi, offset arr
+
+mov ecx, lengthof arr
+mov eax, 0
+
+l1:
+	mov ax, [esi]
+	add esi, 2
+	cmp ax, 0
+	jne found
+	loop l1
+
+	mov edx, offset notFound
+	call writestring
+	jmp exitp
+found:
+	mov ecx, eax
+	mov edx, 0
+	mov dx, var
+	inc edx
+
+	mov ax, var
+	cmp cx, ax
+	jg cond1
+	jmp falseCond
+	cond1:
+		cmp ecx, edx
+		jnl trueCond
+		
+	falseCond:
+	mov x,1
+	jmp exitp
+
+	trueCond:
+	mov x,0
+	
+exitp:
+	mov eax, 0
+	mov al, x
+	call writeint
+
+	exit
+	main endp
+	end main
+
+
+
+
+q4:
+
+INCLUDE Irvine32.inc
+
+.data
+Var DWORD ?
+truemsg BYTE "Hello", 0
+falsemsg BYTE "World", 0
+
+.code
+main PROC
+
+mov Var, 0
+
+l1:
+	cmp Var, 10
+	ja endloop 
+
+	cmp Var, 5
+	ja falseCondition
+	mov edx, OFFSET truemsg
+	call WriteString
+	call Crlf
+	jmp Continue
+
+	falseCondition:
+		mov edx, OFFSET falsemsg
+		call WriteString
+		Call Crlf
+Continue:	
+		inc Var
+		jmp l1
+
+endloop:
+exit
+main ENDP
+END main
+
+
+
+q5:
+
+
+include irvine32.inc
+.data
+
+arr WORD 10, 4, 7, 14, 299, 156, 3, 19, 29, 300, 20
+askUser byte "Enter an integer",0
+notfoundstr byte "Value does not exist in the array",0
+foundstr byte "Value exists in the array",0
+.code
+
+main PROC
+
+mov edx, offset askUser
+call writestring
+
+mov eax, 0
+call readint
+mov ebx , eax
+mov ecx, lengthof arr
+mov esi,  offset arr
+l1:
+	mov ax, [esi]
+	cmp ax, bx
+	je found
+	add esi,2
+loop l1
+mov edx, offset notfoundstr
+call writestring
+jmp exitp
+found:
+	mov edx, offset foundstr
+	call writestring
+
+	exitp:
+exit
+main ENDP
+END main
+
+
+q6:
+
+
+include irvine32.inc
+.data
+
+arr WORD 10, 4, 7, 14, 299, 156, 3, 19, 29, 300, 20
+outer dword 11
+inner dword 10
+j dword ?
+.code
+
+main PROC
+
+mov ecx, lengthof arr
+mov esi, offset arr
+
+l1:
+	mov outer, ecx
+	mov ecx, inner
+l2:
+	mov ebx, 20
+	mov eax, ecx
+	mov dl, 2
+	mul dl
+	sub ebx, eax
+	mov ax, arr[ebx]
+	mov dx, arr[ebx+2]
+	cmp dx,ax
+	jg dirLoop
+	mov arr[ebx], dx
+	mov arr[ebx+2], ax
+	dirLoop:
+	loop l2
+	mov ecx, outer
+loop l1
+
+mov ecx, lengthof arr
+mov ebx, 2
+mov esi, offset arr
+call dumpmem
+
+mov ecx, 11
+mov esi, offset arr
+mov eax, 0
+printLoop:
+	mov ax, [esi]
+	add esi,2
+	call writeint
+	call crlf
+loop printLoop
+exit
+
+main ENDP
+END main
+
+
+q7:
+
+
+INCLUDE Irvine32.inc
+.data
+MON BYTE "MONDAY",0
+TUE BYTE "TUESDAY",0
+WED BYTE "WEDNESDAY",0
+THU BYTE "THURSDAY",0
+FRI BYTE "FRIDAY",0
+SAT BYTE "SATURDAY",0
+SUN BYTE "SUNDAY",0
+invalidstr byte "Entered number is not between 1- 7",0
+.code
+main PROC
+
+CALL READINT
+CMP EAX,1
+JZ MD
+jl invalidNum
+CMP EAX,2
+JZ TD
+CMP EAX,3
+JZ WD
+CMP EAX,4
+JZ THD
+CMP EAX,5
+JZ FD
+CMP EAX,6
+JZ SD
+CMP EAX,7
+JZ SUD
+jg invalidNum
+
+MD:
+MOV EDX,OFFSET MON
+jmp exitprogram
+TD:
+MOV EDX,OFFSET TUE
+jmp exitprogram
+WD:
+MOV EDX,OFFSET WED
+jmp exitprogram
+THD:
+MOV EDX,OFFSET THU
+jmp exitprogram
+FD:
+MOV EDX,OFFSET FRI
+jmp exitprogram
+SD:
+MOV EDX,OFFSET SAT
+jmp exitprogram
+invalidnum:
+mov edx, offset invalidstr
+jmp exitprogram
+
+SUD:
+MOV EDX,OFFSET SUN
+exitprogram:
+call writestring
+call crlf
+exit
+main ENDP
+END main
+
+
+q8:
+
+
+INCLUDE Irvine32.inc
+.data
+no BYTE "It is not an alphabet",0
+yes BYTE "it is an alphabet",0
+.code
+main PROC
+	MOV EAX,0
+	CALL READCHAR
+	call writechar
+	call crlf
+	cmp AL,65
+	jl notAlpha
+	CMP AL,122
+	jg notAlpha
+	MOV EDX,OFFSET yes
+	CALL WRITESTRING
+exit
+	notAlpha:
+	MOV EDX,OFFSET no
+	CALL WRITESTRING
+exit
+main ENDP
+END main

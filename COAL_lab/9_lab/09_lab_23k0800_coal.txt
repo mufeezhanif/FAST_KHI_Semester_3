@@ -1,0 +1,284 @@
+Q1:
+
+include irvine32.inc
+
+.data
+.code
+main PROC
+mov eax,0
+mov eax, 78
+mov ebx, eax
+mov edx, eax
+shl eax, 4
+shl ebx, 3
+add eax, ebx
+add eax, edx
+call writeint
+exit
+main ENDP
+END main
+
+Q2:
+
+INCLUDE Irvine32.inc
+.data
+.code
+main PROC
+
+mov ebx, 0
+
+mov bx ,-128
+
+rol ebx, 16
+sar ebx, 16
+call dumpregs
+exit
+main ENDP
+END main
+
+Q3:
+
+include irvine32.inc
+
+.data
+
+bMinutes byte ?
+
+.code
+main PROC
+mov ax,9347h
+shr ax, 5
+and al, 00111111B
+mov bMinutes, al
+mov bl, al
+movzx eax, bl
+call writeint
+exit
+main ENDP
+END main
+
+Q4:
+
+include irvine32.inc
+
+.data
+
+bMinutes byte ?
+
+.code
+main PROC
+mov eax, 0
+mov bx, 0
+mov al, 00000001b
+clc
+
+call writeint
+rcr ax, 1
+rcr bx,1
+mov ax, bx
+call crlf
+call writeint
+
+
+;using shrd
+mov eax, 0
+mov bx, 0
+mov al, 00000001b
+
+shrd bx, ax , 1
+call crlf
+call writeint
+mov ax, bx
+call crlf
+call writeint
+exit
+main ENDP
+END main
+
+Q5:
+
+INCLUDE Irvine32.inc
+.data
+val1 sword 9
+val2 sword -32
+val3 sword 16
+.code
+main PROC
+	mov ax, val2
+	cwd
+	idiv val3
+	mov bx, ax
+	mov ax, val1
+	cwd
+	idiv val2
+	imul bx
+	mov val1, ax
+	call dumpregs
+
+
+
+exit
+main ENDP
+END main
+
+Q6:
+
+INCLUDE Irvine32.inc
+.data
+a qword 07876776h
+b qword 89347854879823h
+res qword 0h
+.code
+main PROC
+
+mov eax, dword ptr a
+mov ebx, dword ptr a+4
+mov ecx, dword ptr b
+mov edx, dword ptr b+4
+
+call extended_add
+
+mov dword ptr res, eax
+mov dword ptr res +4, ebx
+
+call dumpregs
+
+
+exit
+main ENDP
+
+extended_add proc
+add eax, ecx
+adc ebx, edx
+
+ret
+extended_add endp
+
+end main
+
+Q7:
+
+INCLUDE Irvine32.inc
+.data
+prime byte "the number is prime",0
+nPrime byte "the number is not prime",0
+.code
+main PROC
+
+
+l1:
+	mov eax, 0
+	call readint
+	cmp eax, 1
+	jz endLoop
+	cmp eax, 0
+	jz endLoop
+	call isPrime
+	jmp l1
+
+endloop:
+exit
+main ENDP
+
+isPrime proc
+mov ebx, eax
+mov edx,0
+mov ecx, 2
+div ecx
+mov ecx, eax
+call dumpregs
+l2:
+	cmp ecx, 1
+	jz prntYes
+	mov eax, ebx
+	cdq
+	div ecx
+
+	call dumpregs
+	cmp edx, 0
+	jz prntNo
+	loop l2
+
+prntNo:
+	mov edx, offset nPrime
+	call writestring
+	call crlf
+	jmp bhagjao
+
+prntYes:
+	mov edx, offset Prime
+	call writestring
+	call crlf
+	
+bhagjao:
+ret
+isPrime endp
+
+end main
+
+Q8:
+
+INCLUDE Irvine32.inc
+
+.data
+key byte 2, 4, 1, 0, 3, 5, 2, 4, 4, 6
+msg byte "Msg is hello world", 0
+j byte 0
+
+.code
+main PROC
+    mov esi, 0
+    mov edi, offset key
+    mov ecx, lengthof msg
+
+    mov edx, offset msg
+    call writestring
+    call crlf
+
+l1:
+    mov bl, [msg + esi]
+    cmp bl, 0
+    je done
+
+    mov al, [edi]
+    cmp al, 0
+    jl isneg
+
+    mov dl, cl
+    mov cl, al
+    ror bl, cl
+    mov cl, dl
+    jmp contLoop
+
+isneg:
+    neg al
+    mov dl, cl
+    mov cl, al
+    rol bl, cl
+    mov cl, dl
+    jmp contLoop
+
+contLoop:
+    mov [msg + esi], bl
+    inc esi
+
+    inc j
+    cmp j, 10
+    jz resetj
+    add edi, 1
+    loop l1
+
+resetj:
+    mov j, 0
+    mov edi, offset key
+    loop l1
+
+done:
+    mov edx, offset msg
+    call writestring
+    call crlf
+
+    exit
+main ENDP
+
+end main

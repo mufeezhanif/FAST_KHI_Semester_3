@@ -1,0 +1,269 @@
+Q1:
+INCLUDE Irvine32.inc
+
+.data
+.code
+main PROC
+
+	call readint
+	push eax
+call readint
+	push eax
+call readint
+	push eax
+
+	call sumThree
+
+	call writeint
+    exit
+main ENDP
+
+sumThree proc
+
+push ebp
+mov ebp, esp
+
+mov eax, [ebp +8]
+add eax, [ebp+12]
+add eax, [ebp+16]
+
+pop ebp
+ret
+sumThree endp
+
+
+end main
+
+Q2:
+
+INCLUDE Irvine32.inc
+
+.data
+arr byte 23,43,54,23,1,5,6,4,7,45,76,34,65,24,2
+
+.code
+main PROC
+	
+	push offset arr
+	push lengthof arr
+	call ArrayAvg
+	call writeint
+    exit
+main ENDP
+
+ArrayAvg proc
+
+push ebp
+mov ebp, esp
+mov ecx, [ebp +8]
+mov esi, [ebp +12]
+
+mov eax, 0
+
+l1:
+	mov dl , [esi]
+	movzx ebx, dl
+	add eax, ebx
+	add esi, type arr
+	loop l1
+
+	mov edx, 0
+	mov ebx, [ebp +8]
+	div ebx
+pop ebp
+ret
+ArrayAvg endp
+
+
+end main
+
+
+Q3:
+
+INCLUDE Irvine32.inc
+
+.data
+
+.code
+main PROC
+	call LocalCube
+
+exit
+main ENDP
+
+
+LocalCube PROC
+ enter 4, 0
+    
+    call readint
+    mov [ebp + 8] , eax  
+
+    
+    mov ebx, [ebp + 8]
+	mov eax, ebx
+	mul ebx
+	mul ebx
+    call writedec
+
+ leave
+ ret
+LocalCube endp
+
+END main
+
+
+Q4:
+
+INCLUDE irvine32.inc
+.data
+
+arr dword 5 DUP(?)
+msg BYTE "All numbers are not even", 0
+msg2 BYTE "Smallest even: ", 0
+var dword 2
+
+.code
+main PROC
+    mov ecx, LENGTHOF arr
+    mov esi, OFFSET arr
+L1:
+    call readint
+    mov [esi], eax
+    add esi, TYPE arr
+    LOOP L1
+
+    PUSH OFFSET arr
+    PUSH LENGTHOF arr
+    call checkEven
+
+    exit
+main ENDP
+
+checkEven PROC
+    PUSH ebp
+    mov ebp, esp
+
+    mov ecx, [ebp + 8]
+    mov esi, [ebp + 12]
+
+L2:
+    mov eax, [esi]
+    cdq
+    div var
+    cmp edx, 0
+    jnz notEven
+
+    add esi, TYPE arr
+    LOOP L2
+
+    PUSH OFFSET arr
+    PUSH LENGTHOF arr
+    call smallestEven
+    jmp done
+
+notEven:
+    mov edx, OFFSET msg
+    call writestring
+
+done:
+    pop ebp
+    ret
+checkEven ENDP
+
+smallestEven PROC
+    PUSH ebp
+    mov ebp, esp
+
+    mov ecx, [ebp + 8]
+    mov esi, [ebp + 12]
+
+    mov eax, [esi]
+    add esi, TYPE arr
+    dec ecx
+
+L3:
+    cmp [esi], eax
+    jge increment
+    mov eax, [esi]
+
+increment:
+    add esi, TYPE arr
+    LOOP L3
+
+    mov edx, OFFSET msg2
+    call writestring
+    call writedec
+
+    pop ebp
+    ret
+smallestEven ENDP
+
+END main
+
+Q5:
+
+INCLUDE irvine32.inc
+.data
+
+arr dword 5, 45, 2 ,1 ,0
+msg BYTE "Sorted array: ", 0
+
+.code
+main PROC
+    PUSH OFFSET arr     
+    PUSH LENGTHOF arr
+    call bubbleSort            
+
+    mov edx, OFFSET msg         
+    call writeString            
+    call crlf
+    mov ecx, LENGTHOF arr   
+    mov esi, OFFSET arr       
+L1:
+    mov eax, [esi]              
+    call writedec              
+    call crlf                  
+    add esi, TYPE arr       
+    LOOP L1                     
+
+    exit
+main ENDP
+
+bubbleSort PROC
+    PUSH ebp
+    mov ebp, esp
+
+    mov ecx, [ebp + 8]          
+    dec ecx                     
+    mov esi, [ebp + 12]         
+
+outer_loop:
+    mov edx, ecx                
+    mov edi, esi                
+
+inner_loop:
+    mov eax, [edi]              
+    mov ebx, [edi + TYPE arr] 
+
+    cmp eax, ebx                
+    jle NoSwap                  
+
+    mov [edi], ebx              
+    mov [edi + TYPE arr], eax
+
+NoSwap:
+    add edi, TYPE arr       
+    dec edx                   
+    jnz inner_loop              
+
+    dec ecx                     
+    jnz outer_loop             
+
+    pop ebp
+    ret
+bubbleSort ENDP
+
+END main
+
+
+
