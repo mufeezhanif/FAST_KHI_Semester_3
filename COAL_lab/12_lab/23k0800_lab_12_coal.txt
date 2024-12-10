@@ -1,0 +1,106 @@
+Q1)
+#include <stdio.h>
+
+extern "C" void threeprod();
+int main()
+{
+	unsigned short n1, n2, n3;
+	unsigned short ans;
+	printf("Enter 3 nums:");
+	scanf_s("%hx %hx %hx",&n1,&n2,&n3);
+	__asm {
+		mov eax,0
+		mov ebx,0
+		mov ecx,0
+
+		mov ax,n1
+		mov bx,n2
+		mov cx,n3
+	}
+	threeprod();
+
+	__asm{
+		mov ans,ax
+	}
+	printf("%d", ans);
+	return 0;
+}
+
+.686 
+.MODEL FLAT, C 
+.STACK 2048 
+.DATA 
+ans dword ?
+.CODE 
+threeprod proc
+mul bx
+mul cx
+mov ans,eax
+ret
+threeprod ENDP
+END
+
+Q2)
+#include <stdio.h>
+
+extern "C" void gcd();
+int main()
+{
+	unsigned short n1, n2;
+	unsigned short ans;
+	printf("Enter 2 nums:");
+	scanf_s("%hx %hx",&n1,&n2);
+	if (n1 < n2) {
+		__asm {
+			mov eax, 0
+			mov ebx, 0
+
+			mov ax, n1
+			mov bx, n2
+			movzx ecx, n1
+		}
+	}
+	else if (n1 > n2) {
+		__asm {
+			mov eax, 0
+			mov ebx, 0
+
+			mov ax, n1
+			mov bx, n2
+			movzx ecx, n2
+		}
+	}
+	
+	gcd();
+
+	__asm{
+		mov ans,ax
+	}
+	printf("Ans: %hx", ans);
+	return 0;
+}
+
+.686 
+.MODEL FLAT, C 
+.STACK 2048 
+.DATA 
+val1 word ?
+val2 word ?
+ans dword ?
+.CODE 
+gcd proc
+mov val1,ax
+mov val2,bx
+l1:
+	cmp ebx,0
+	je done
+	mov edx,0
+	div ebx
+	mov eax,ebx
+	mov ebx,edx
+jmp l1
+done:
+mov ans,eax
+ret
+gcd ENDP
+END

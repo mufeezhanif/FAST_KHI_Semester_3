@@ -1,0 +1,298 @@
+Q1)
+INCLUDE Irvine32.inc
+
+.data
+MSG BYTE "23k0800", 0
+Str1 BYTE '127&j~3#^&##45^',0
+alpha byte '#',0
+found byte "Found at ",0
+notfound byte "Not present",0
+it dword 0
+
+.code
+main PROC
+    MOV EDX, OFFSET MSG
+    CALL WRITESTRING
+    CALL CRLF
+
+    call scanstring
+    exit
+main ENDP
+
+scanstring proc
+mov edi,offset str1
+mov ecx,lengthof str1
+mov al,alpha
+mov edx,offset str1
+
+cld
+repne scasb
+jne exitproc
+
+sub edi,edx
+mov it,edi
+mov edx,offset found
+call writestring
+mov eax,it
+call writedec          ;1 based indexing
+dec eax                ;0 based indexing
+ret
+
+exitproc:
+mov edx,offset notfound
+call writestring
+ret
+scanstring endp
+
+END main
+
+Q2)
+INCLUDE Irvine32.inc
+
+.data
+MSG BYTE "23K0800", 0
+Str1 BYTE '127&j~3#^&##45^',0
+alpha byte '#',0
+found byte "Found at ",0
+notfound byte "Not present",0
+it dword 0
+
+.code
+main PROC
+    MOV EDX, OFFSET MSG
+    CALL WRITESTRING
+    CALL CRLF
+
+    PUSH OFFSET STR1
+    MOVZX EAX,ALPHA
+    PUSH EAX
+    call scanstring
+    exit
+main ENDP
+
+scanstring proc
+PUSH EBP
+MOV EBP,ESP
+mov edi,[EBP+12]
+mov ecx,lengthof str1
+mov AL,[EBP+8]
+mov edx,offset str1
+
+cld
+repne scasb
+jne exitproc
+
+sub edi,edx
+mov it,edi
+mov edx,offset found
+call writestring
+mov eax,it
+call writedec          ;1 based indexing
+dec eax                ;0 based indexing
+POP EBP
+ret 8
+
+exitproc:
+mov edx,offset notfound
+call writestring
+ret
+scanstring endp
+
+END main
+
+Q3)
+INCLUDE Irvine32.inc
+
+.data
+MSG BYTE "23K0800", 0
+greater BYTE 'str1 > str2', 0
+lesser BYTE 'str1 < str2', 0
+equal BYTE 'str1 == str2', 0
+str1 BYTE 'abcdg', 0
+str2 BYTE 'abcdf', 0
+
+.code
+main PROC
+    MOV EDX, OFFSET MSG
+    CALL WRITESTRING
+    CALL CRLF
+    CALL comparestring
+    
+    exit
+main ENDP
+
+comparestring PROC
+    MOV ESI, OFFSET str1
+    MOV EDI, OFFSET str2
+    MOV ECX, LENGTHOF str1
+compare_loop:
+    REPE CMPSB
+    JNE mismatch
+    CMP ECX, 0
+    JE strings_equal
+mismatch:
+    JA str1greater
+    MOV EDX, OFFSET lesser
+    CALL WRITESTRING
+    RET
+str1greater:
+    MOV EDX, OFFSET greater
+    CALL WRITESTRING
+    RET
+strings_equal:
+    MOV EDX, OFFSET equal
+    CALL WRITESTRING
+    RET
+comparestring ENDP
+END main
+
+Q4)
+INCLUDE Irvine32.inc
+
+.data
+msg BYTE "MUFEEZHANIF", 0
+msg2 BYTE SIZEOF msg DUP(?)
+
+.code
+main PROC
+    mov edx, OFFSET msg
+    call WriteString
+    call Crlf
+
+    push OFFSET msg
+    push OFFSET msg2
+    mov eax,0
+    call func
+
+    mov edx, OFFSET msg2
+    call WriteString
+
+    exit
+main ENDP
+
+func PROC
+    push ebp
+    mov ebp, esp
+
+    mov esi, [ebp + 12]  ;msg
+    mov edi, [ebp + 8]   ;msg2
+
+    mov ecx, LENGTHOF msg - 1
+    add esi, ecx
+    sub esi, 1
+
+l1:
+    
+    std
+    lodsb
+    cld
+    stosb
+    loop l1
+
+    inc edi
+    mov BYTE PTR [edi], 0
+
+    pop ebp
+    ret 8
+func ENDP
+
+END main
+
+Q5)
+INCLUDE Irvine32.inc
+
+.data
+msg byte "23k0800 MUHAMMAD MUFEEZ",0
+NUMS byte 1h,2h,3h,4h,5h,6h
+multiplier word ?
+
+.code
+main PROC
+    mov edx,offset msg
+    call writestring
+    call crlf
+
+    call readdec
+    mov multiplier,ax
+    push offset nums
+    movzx eax,multiplier
+    push eax
+    mov ecx,lengthof nums
+    push ecx
+
+    call func
+
+    mov ebx,1
+    mov ecx,lengthof nums
+    mov esi,offset nums
+    call dumpmem
+    exit
+main ENDP
+
+func PROC
+    push ebp
+    mov ebp,esp
+    mov esi,[ebp+16]
+    mov edi,esi
+    mov ebx,[ebp+12]
+    mov ecx,[ebp+8]
+
+    cld
+    l1:
+    lodsb
+    mul ebx
+    stosb
+    loop l1
+
+    pop ebp
+    ret 12
+func ENDP
+
+END main
+
+Q6)
+INCLUDE Irvine32.inc
+
+.data
+msg byte "23k0800- MUHAMMAD MUFEEZ",0
+target byte "AAEBDCFBBC",0
+freqtable DWORD 256 DUP(0)
+
+.code
+getfreq proto, tar:ptr byte, freq:ptr dword
+main PROC
+    
+    mov edx,offset msg
+    call writestring
+    call crlf
+    
+    invoke getfreq, ADDR target, ADDR freqtable
+    
+    mov esi,offset freqtable
+    mov ecx,256
+
+    mov ebx,4
+    mov esi,offset freqtable
+    mov ecx,256
+    call dumpmem
+
+    exit
+main ENDP
+
+getfreq PROC, tar:ptr byte, freq:ptr dword
+        mov ecx,lengthof target
+        dec ecx
+        mov esi, tar
+        mov edi, freq
+        mov eax,0
+        cld
+
+        l1:
+        mov eax,0
+        lodsb
+        inc dword ptr[edi+eax*4]
+        loop l1
+        ret 8
+getfreq ENDP
+
+END main
